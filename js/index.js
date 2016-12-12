@@ -4,11 +4,28 @@ import * as actions from './actions/index';
 import store from './store';
 
 
-store.dispatch(actions.generateNumber());
-store.dispatch(actions.guessNumber(11));
+store.dispatch(actions.newGame());
+store.dispatch(actions.guessNumber(20));
+store.dispatch(actions.checkCloseness());
+store.dispatch(actions.checkCorrect());
+console.log(store.getState());
 
-console.log(store.getState()); // Logs [{ name: 'joe', rating: null}]
+store.dispatch(actions.guessNumber(37));
+store.dispatch(actions.checkCloseness());
+store.dispatch(actions.checkCorrect());
+console.log(store.getState());
 
-store.dispatch(actions.guessNumber(13));
-console.log(store.getState()); // Logs [{ name: 'joe', rating: null}]
+store.dispatch(actions.guessNumber(42));
+store.dispatch(actions.checkCloseness());
+store.dispatch(actions.checkCorrect());
+console.log(store.getState());
 
+store.dispatch(actions.guessNumber(47));
+store.dispatch(actions.checkCloseness());
+store.dispatch(actions.checkCorrect());
+console.log(store.getState());
+
+store.dispatch(actions.guessNumber(50));
+store.dispatch(actions.checkCloseness());
+store.dispatch(actions.checkCorrect());
+console.log(store.getState());
