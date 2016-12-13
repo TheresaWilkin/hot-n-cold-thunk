@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 export const NEW_GAME = 'NEW_GAME';
 export const newGame = () => ({
 	type: NEW_GAME
@@ -15,7 +16,6 @@ export const checkCloseness = () => ({
 });
 
 export const CHECK_CORRECT = 'CHECK_CORRECT';
-export const checkCorrect = correct => ({
-	type: CHECK_CORRECT,
-	correct
+export const checkCorrect = () => ({
+	type: CHECK_CORRECT
 });

@@ -10,6 +10,7 @@ export class Feedback extends React.Component {
 		return (
 			<div>
 				<h1> {this.props.message} </h1>
+				{this.props.test}
 			</div>
 		);
 	}

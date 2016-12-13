@@ -1,15 +1,39 @@
 /*jshint esversion: 6 */
 import React from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../actions/index';
 
-export default class Form extends React.Component {
+export class Form extends React.Component {
+	constructor(props){
+		super(props);
+		this.getGuess = this.getGuess.bind(this);
+	}
+
+getGuess() {
+		const formValue = this.guessInput.value;
+		this.props.dispatch(
+			actions.guessNumber(formValue)
+		);
+
+		this.props.dispatch(
+			actions.checkCloseness()
+		);
+
+		this.props.dispatch(
+			actions.checkCorrect()
+		);
+	}
+
 	render(){
 		return (
-			<form>
-				<input id='guessinput' type='text' />
-				<button id='guessbutton' type='button' onClick={console.log('Button was clicked!')}>
-					Guess
+			<div>
+				<input id='guessinput' type='text' ref={ref => this.guessInput = ref}/>
+				<button id='guessbutton' type='button' onClick={this.getGuess}>
+					Guess!
 				</button>
-			</form>
+			</div>
 		)
 	}
 }
+
+export default connect()(Form)
