@@ -15,5 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		<Provider store={store}>
 				<Game />
 		</Provider>,
-		document.getElementById('app'));
+		document.getElementById('app'), function() 
+		{store.dispatch(actions.newGame())});
 });

@@ -15,6 +15,11 @@ export class Feedback extends React.Component {
 	}
 }
 
+Feedback.defaultProps = {
+    message: 'Make a Guess!'
+};
+
+
 const mapStateToProps = (state, props) => ({
 		message: state.proximity
 });

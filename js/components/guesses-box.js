@@ -1,11 +1,14 @@
 /*jshint esversion: 6 */
 import React from 'react';
 import GuessedNumber from './guessed-number';
+import {connect} from 'react-redux';
 
-export default class GuessesBox extends React.Component {
+export class GuessesBox extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render(){
-    let dummyArray = [1,2,3,4,5];
-    let guessedNumbers = dummyArray.map((number, index) => {
+    let guessedNumbers = this.props.guesses.map((number, index) => {
       return <GuessedNumber number={number} key={index}/>
     });
     return (
@@ -17,3 +20,13 @@ export default class GuessesBox extends React.Component {
     )
   }
 }
+
+GuessesBox.defaultProps = {
+    guesses: []
+};
+
+const mapStateToProps = (state, props) => ({
+  guesses: state.guesses
+})
+
+export default connect(mapStateToProps)(GuessesBox)

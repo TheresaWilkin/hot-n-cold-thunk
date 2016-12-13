@@ -11,7 +11,7 @@ export const numberReducer = (state=initialState, action) => {
 			number,
 			currentGuess: null,
 			guesses: [],
-			proximity: '',
+			proximity: 'Make a Guess!',
 			won: false
 		};
 	}
