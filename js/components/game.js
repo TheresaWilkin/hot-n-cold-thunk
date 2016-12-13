@@ -1,8 +1,9 @@
+/*jshint esversion: 6 */
 import React from 'react';
 import GameBox from './game-box';
+import {connect} from 'react-redux';
 
-export default class Game extends React.Component {
-
+export class Game extends React.Component {
 
 	render() {
 		return (
@@ -13,3 +14,5 @@ export default class Game extends React.Component {
 		);
 	}
 }
+
+export default connect()(Game);

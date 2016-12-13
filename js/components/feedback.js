@@ -1,12 +1,22 @@
+/*jshint esversion: 6 */
 import React from 'react';
+import {connect} from 'react-redux';
 
-export default class Feedback extends React.Component {
-
+export class Feedback extends React.Component {
+	constructor(props) {
+		super(props);
+	}
 	render() {
 		return (
 			<div>
-				<h1>Hot Cold</h1>
+				<h1> {this.props.message} </h1>
 			</div>
 		);
 	}
 }
+
+const mapStateToProps = (state, props) => ({
+		message: state.proximity
+});
+
+export default connect(mapStateToProps)(Feedback)
