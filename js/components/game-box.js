@@ -7,7 +7,7 @@ import GuessesBox from './guesses-box';
 export default class GameBox extends React.Component {
 	render(){
 		return (
-			<div>
+			<div className='gamebox'>
 				<Feedback />
 				<GuessContainerBox />
 				<GuessesBox />

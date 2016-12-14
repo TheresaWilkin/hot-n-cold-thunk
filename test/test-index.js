@@ -1,6 +1,8 @@
 /*jshint esversion: 6 */
 import React from 'react';
 import {createStore} from 'redux';
+import {Game} from '../js/components/game';
+import GameBox from '../js/components/game-box';
 
 import * as reducers from '../js/reducers/index';
 import * as actions from '../js/actions/index';
@@ -77,7 +79,6 @@ describe('GUESS_NUMBER', function(){
   });
 });
 
-import {Game} from '../js/components/game';
 
 describe('Game component', function() {
   it('Render a header and a GameBox component', function() {
@@ -85,18 +86,31 @@ describe('Game component', function() {
     renderer.render(<Game store={testStore} />);
     const result = renderer.getRenderOutput();
 
-    type = 'div'
-    props.length = 2 
-    props.className = 'game'
-    props.children.length = 3
+    result.props.className.should.equal('game');
+    result.props.children.length.should.equal(3);
+    result.type.should.equal('div');
+    result.props.children[0].type.should.equal('button');
+    result.props.children[0].props.should.have.property('onClick');
+    result.props.children[0].props.children.should.equal('Start New Game');
 
-    children[0]: type = 'button', has props.onClick, props.children = 'Start New Game'
-    children[1]: type = 'h1', props.children = 'HOT or COLD?'
-    console.log(result);
+    result.props.children[1].type.should.equal('h1');
+    result.props.children[1].props.children.should.equal('HOT or COLD?');
   });
 });
 
-// import Image from '../js/components/image';
+describe('Game Box', function() {
+  it('Render the gamebox', function(){
+    const renderer = TestUtils.createRenderer();
+    renderer.render(<GameBox store={testStore}/>);
+    const result = renderer.getRenderOutput();
+
+    console.log(result.props);
+
+    result.type.should.equal('div');
+    result.props.className.should.equal('gamebox');
+    result.props.children.length.should.equal(3);
+  })
+})
 
 // describe('Image component', function() {
 //     it('Renders the image and description',  function() {
@@ -104,7 +118,7 @@ describe('Game component', function() {
 //         const renderer = TestUtils.createRenderer();
 //         renderer.render(<Image />);
 //         const result = renderer.getRenderOutput();
-//         
+//
 //         result.props.className.should.equal('gallery-image');
 
 //         const img = result.props.children[0];
@@ -117,8 +131,8 @@ describe('Game component', function() {
 //         p.props.children.should.equal(description);
 //     });
 // });
-// 
-// 
+//
+//
 // #Game (component) w/ children: #header
   // #GameBox (component)
   //   #Feedback (component)
@@ -127,4 +141,3 @@ describe('Game component', function() {
   //     #GuessCount (component)
   //   #GuessesBox (component)
   //     #GuessedNumber (component)
-
