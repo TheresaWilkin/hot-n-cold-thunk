@@ -1,8 +1,12 @@
 /*jshint esversion: 6 */
 import React from 'react';
 import {createStore} from 'redux';
+
 import {Game} from '../js/components/game';
 import GameBox from '../js/components/game-box';
+import {Feedback} from '../js/components/feedback';
+import GuessContainerBox from '../js/components/guess-container-box';
+import {GuessForm} from '../js/components/form';
 
 import * as reducers from '../js/reducers/index';
 import * as actions from '../js/actions/index';
@@ -83,7 +87,7 @@ describe('GUESS_NUMBER', function(){
 describe('Game component', function() {
   it('Render a header and a GameBox component', function() {
     const renderer = TestUtils.createRenderer();
-    renderer.render(<Game store={testStore} />);
+    renderer.render(<Game />);
     const result = renderer.getRenderOutput();
 
     result.props.className.should.equal('game');
@@ -101,10 +105,8 @@ describe('Game component', function() {
 describe('Game Box', function() {
   it('Render the gamebox', function(){
     const renderer = TestUtils.createRenderer();
-    renderer.render(<GameBox store={testStore}/>);
+    renderer.render(<GameBox />);
     const result = renderer.getRenderOutput();
-
-    console.log(result.props);
 
     result.type.should.equal('div');
     result.props.className.should.equal('gamebox');
@@ -112,32 +114,64 @@ describe('Game Box', function() {
   })
 })
 
-// describe('Image component', function() {
-//     it('Renders the image and description',  function() {
-//
-//         const renderer = TestUtils.createRenderer();
-//         renderer.render(<Image />);
-//         const result = renderer.getRenderOutput();
-//
-//         result.props.className.should.equal('gallery-image');
+describe('Feedback', function() {
+  it('Render the feedback', function(){
+    const renderer = TestUtils.createRenderer();
+    renderer.render(<Feedback />);
+    const result = renderer.getRenderOutput();
 
-//         const img = result.props.children[0];
-//         img.type.should.equal('img');
-//         img.props.src.should.equal(url);
-//         img.props.alt.should.equal(description);
+    result.type.should.equal('div');
+    let child = result.props.children;
+    child.type.should.equal('h1');
+    child.props.children.should.equal('Make a Guess!');
+  });
+  it('Render the feedback w/ a non-default message', function(){
+    const renderer = TestUtils.createRenderer();
+    renderer.render(<Feedback message="ICE" />);
+    const result = renderer.getRenderOutput();
 
-//         const p = result.props.children[1];
-//         p.type.should.equal('p');
-//         p.props.children.should.equal(description);
-//     });
-// });
+    result.type.should.equal('div');
+    let child = result.props.children;
+    child.type.should.equal('h1');
+    child.props.children.should.equal('ICE');
+  });
+});
+
+describe('GuessContainerBox', function() {
+  it('Render the GuessContainerBox', function(){
+    const renderer = TestUtils.createRenderer();
+    renderer.render(<GuessContainerBox />);
+    const result = renderer.getRenderOutput();
+
+    result.type.should.equal('div');
+    result.props.children.length.should.equal(2);
+  });
+});
+
+
+describe('GuessForm', function() {
+  it('Render the GuessForm', function(){
+    const renderer = TestUtils.createRenderer();
+    renderer.render(<GuessForm />);
+    const result = renderer.getRenderOutput();
+
+    result.type.should.equal('div');
+    result.props.children.length.should.equal(2);
+
+    let children = result.props.children;
+    children[0].type.should.equal('input');
+    children[0].props.id.should.equal('guessinput');
+    children[0].props.type.should.equal('text');
+    children[1].type.should.equal('button');
+    children[1].props.id.should.equal('guessbutton');
+    children[1].props.type.should.equal('button');
+    children[1].props.should.have.property('onClick');    
+    children[1].props.children.should.equal('Guess!');
+  });
+});
+
 //
-//
-// #Game (component) w/ children: #header
-  // #GameBox (component)
-  //   #Feedback (component)
-  //   #GuessContainerBox (component)
-  //     #Form w/ children: #GuessInput, #GuessButton
-  //     #GuessCount (component)
-  //   #GuessesBox (component)
-  //     #GuessedNumber (component)
+// 
+  //     #GuessCount (component) (render once w/ guesses="[]" and once w/ guesses=[1,2])
+  //   #GuessesBox (component) (render once w/ guesses="[]" and once w/ guesses=[1,2])
+  //     #GuessedNumber (component) (will need a prop)

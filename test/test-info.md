@@ -1,54 +1,32 @@
-Game Box
 { '$$typeof': Symbol(react.element),
   type: 'div',
   key: null,
   ref: null,
-  props:
-   { className: 'game',
-     children: [ [Object], [Object], [Object] ] },
+  props: { children: [ [Object], [Object] ] },
   _owner: null,
   _store: {} }
 
-  =====================
-
-  Game Box
-[
-{ '$$typeof': Symbol(react.element),
-    type:
-     { [Function: Connect]
-       displayName: 'Connect(Feedback)',
-       WrappedComponent: [Object],
-       contextTypes: [Object],
-       propTypes: [Object] },
+    GuessForm
+[ 
+  { '$$typeof': Symbol(react.element),
+    type: 'input',
     key: null,
-    ref: null,
-    props: {},
+    ref: [Function: ref],
+    props: { id: 'guessinput', type: 'text' },
     _owner: null,
-    _store: {}
+    _store: {} 
   },
 
-  {
-    '$$typeof': Symbol(react.element),
-    type: [Function: GuessContainerBox],
-    key: null,
-    ref: null,
-    props: {},
-    _owner: null,
-    _store: {}
-
-    },
-
   { '$$typeof': Symbol(react.element),
-    type:
-     { [Function: Connect]
-       displayName: 'Connect(GuessesBox)',
-       WrappedComponent: [Object],
-       contextTypes: [Object],
-       propTypes: [Object] },
+    type: 'button',
     key: null,
     ref: null,
-    props: {},
+    props: 
+     { id: 'guessbutton',
+       type: 'button',
+       onClick: [Function: bound getGuess],
+       children: 'Guess!' },       
     _owner: null,
-    _store: {}
-      }
-  ]
+    _store: {} 
+  } 
+]
