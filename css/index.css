@@ -3,4 +3,14 @@
   margin: auto;
   width: 50%;
   text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+li {
+	display: inline-block;
+	background-color: lightblue;
+	margin: 5px;
+	padding: 2px;
+	border-radius: 5px;
 }

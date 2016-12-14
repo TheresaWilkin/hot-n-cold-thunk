@@ -14,6 +14,7 @@ getGuess() {
 		this.props.dispatch(
 			actions.guessNumber(formValue)
 		);
+		this.guessInput.value = "";
 	}
 
 	render(){

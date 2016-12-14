@@ -25,7 +25,7 @@ describe('New Game', function() {
 });
 
 describe('GUESS_NUMBER', function(){
-  it('should record a guess and respond appropriately', function() {
+  it('should record an ICE guess and respond appropriately', function() {
     const guessedNumber = 100;
     testStore.dispatch(actions.guessNumber(guessedNumber));
     let state = testStore.getState();
@@ -35,18 +35,96 @@ describe('GUESS_NUMBER', function(){
     state.proximity.should.equal('ICE');
     state.won.should.equal(false);
   });
+  it('should record an COLD guess and respond appropriately', function() {
+    const guessedNumber = 20;
+    testStore.dispatch(actions.guessNumber(guessedNumber));
+    let state = testStore.getState();
+    state.number.should.equal(number);
+    state.currentGuess.should.equal(guessedNumber);
+    state.guesses.length.should.equal(2);
+    state.proximity.should.equal('COLD');
+    state.won.should.equal(false);
+  });
+  it('should record an HOT guess and respond appropriately', function() {
+    const guessedNumber = 15;
+    testStore.dispatch(actions.guessNumber(guessedNumber));
+    let state = testStore.getState();
+    state.number.should.equal(number);
+    state.currentGuess.should.equal(guessedNumber);
+    state.guesses.length.should.equal(3);
+    state.proximity.should.equal('HOT');
+    state.won.should.equal(false);
+  });
+  it('should record an VERY HOT guess and respond appropriately', function() {
+    const guessedNumber = 10;
+    testStore.dispatch(actions.guessNumber(guessedNumber));
+    let state = testStore.getState();
+    state.number.should.equal(number);
+    state.currentGuess.should.equal(guessedNumber);
+    state.guesses.length.should.equal(4);
+    state.proximity.should.equal('VERY HOT');
+    state.won.should.equal(false);
+  });
+  it('should record a WINNING guess and respond appropriately', function() {
+    const guessedNumber = number;
+    testStore.dispatch(actions.guessNumber(guessedNumber));
+    let state = testStore.getState();
+    state.number.should.equal(number);
+    state.currentGuess.should.equal(guessedNumber);
+    state.guesses.length.should.equal(5);
+    state.proximity.should.equal('WINNER');
+    state.won.should.equal(true);
+  });
 });
 
-// {type:'GUESS_NUMBER',guess:'100'});
-//   expect(state).toEqual({number:5,currentGuess:'100',guesses:['100'],proximity:'ICE',won:false});
-//{type:'GUESS_NUMBER',guess:'20'});
-//   expect(state).toEqual({number:5,currentGuess:'20',guesses:['100','35','25','20'],proximity:'COLD',won:false});
-//{type:'GUESS_NUMBER',guess:'15'});
-//   expect(state).toEqual({number:5,currentGuess:'15',guesses:['100','35','25','20','15'],proximity:'HOT',won:false});
-//{type:'GUESS_NUMBER',guess:'10'});
-//   expect(state).toEqual({number:5,currentGuess:'10',guesses:['100','35','25','20','15','10'],proximity:'VERY HOT',won:false});
-//{type:'GUESS_NUMBER',guess:'5'});
-//   expect(state).toEqual({number:5,currentGuess:'5',guesses:['100','35','25','20','15','10','5'],proximity:'WINNER',won:false});
+import {Game} from '../js/components/game';
+
+describe('Game component', function() {
+  it('Render a header and a GameBox component', function() {
+    const renderer = TestUtils.createRenderer();
+    renderer.render(<Game store={testStore} />);
+    const result = renderer.getRenderOutput();
+
+    type = 'div'
+    props.length = 2 
+    props.className = 'game'
+    props.children.length = 3
+
+    children[0]: type = 'button', has props.onClick, props.children = 'Start New Game'
+    children[1]: type = 'h1', props.children = 'HOT or COLD?'
+    console.log(result);
+  });
+});
+
+// import Image from '../js/components/image';
+
+// describe('Image component', function() {
+//     it('Renders the image and description',  function() {
 //
-//
-//
+//         const renderer = TestUtils.createRenderer();
+//         renderer.render(<Image />);
+//         const result = renderer.getRenderOutput();
+//         
+//         result.props.className.should.equal('gallery-image');
+
+//         const img = result.props.children[0];
+//         img.type.should.equal('img');
+//         img.props.src.should.equal(url);
+//         img.props.alt.should.equal(description);
+
+//         const p = result.props.children[1];
+//         p.type.should.equal('p');
+//         p.props.children.should.equal(description);
+//     });
+// });
+// 
+// 
+// #Game (component) w/ children: #header
+  // #GameBox (component)
+  //   #Feedback (component)
+  //   #GuessContainerBox (component)
+  //     #Form w/ children: #GuessInput, #GuessButton
+  //     #GuessCount (component)
+  //   #GuessesBox (component)
+  //     #GuessedNumber (component)
+

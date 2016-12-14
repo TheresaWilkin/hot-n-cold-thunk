@@ -17,9 +17,11 @@ export const numberReducer = (state=initialState, action) => {
 		let guesses = [...state.guesses, action.guess];
 
 		let choice = 'ICE';
+		let won = state.won;
 		let distance = Math.abs(action.guess - state.number);
 		if (distance === 0) {
 			choice = 'WINNER';
+			won = true;
 		} else if (distance <= 5) {
 			choice = 'VERY HOT';
 		} else if (distance <= 10) {
@@ -28,10 +30,6 @@ export const numberReducer = (state=initialState, action) => {
 			choice = 'COLD';
 		}
 
-		let won = state.won;
-		if (action.currentGuess === state.number) {
-			won = true;
-		}
 		return Object.assign({}, state,
 			{currentGuess: action.guess, guesses, proximity: choice, won}
 		);
@@ -39,3 +37,8 @@ export const numberReducer = (state=initialState, action) => {
 
     return state;
 };
+
+
+
+
+
