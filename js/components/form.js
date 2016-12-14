@@ -3,7 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../actions/index';
 
-export class Form extends React.Component {
+export class GuessForm extends React.Component {
 	constructor(props){
 		super(props);
 		this.getGuess = this.getGuess.bind(this);
@@ -36,4 +36,4 @@ getGuess() {
 	}
 }
 
-export default connect()(Form)
+export default connect()(GuessForm)

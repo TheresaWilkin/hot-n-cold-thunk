@@ -5,10 +5,8 @@ const initialState = {};
 
 export const numberReducer = (state=initialState, action) => {
 	if(action.type === actions.NEW_GAME) {
-		let number = Math.floor((Math.random() * 100) + 1);
-		// let number = 50;
 		return {
-			number,
+			number: action.number,
 			currentGuess: null,
 			guesses: [],
 			proximity: 'Make a Guess!',
@@ -17,17 +15,9 @@ export const numberReducer = (state=initialState, action) => {
 	}
 	else if (action.type === actions.GUESS_NUMBER) {
 		let guesses = [...state.guesses, action.guess];
-		return Object.assign({},state,
-			{currentGuess: action.guess, guesses}
-		);
-	}
-	else if (action.type === actions.CHECK_CLOSENESS) {
-		// VERY HOT: 5
-		// HOT: 10
-		// COLD: 15
-		// ICE: 20
+
 		let choice = 'ICE';
-		let distance = Math.abs(state.currentGuess - state.number);
+		let distance = Math.abs(action.guess - state.number);
 		if (distance === 0) {
 			choice = 'WINNER';
 		} else if (distance <= 5) {
@@ -38,17 +28,14 @@ export const numberReducer = (state=initialState, action) => {
 			choice = 'COLD';
 		}
 
-		return Object.assign({}, state,
-			{proximity: choice});
-	}
-	else if (action.type === actions.CHECK_CORRECT) {
 		let won = state.won;
-		if (state.currentGuess === state.number) {
+		if (action.currentGuess === state.number) {
 			won = true;
 		}
-		return Object.assign({}, state, {won});
+		return Object.assign({}, state,
+			{currentGuess: action.guess, guesses, proximity: choice, won}
+		);
 	}
-
 
     return state;
 };
