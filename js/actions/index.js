@@ -53,3 +53,41 @@ export const fetchGuess = () => {
 			.catch(error => dispatch(fetchGuessError(error)));
 	}
 }
+
+
+export const POST_GUESS_SUCCESS = 'POST_GUESS_SUCCESS';
+export const postGuessSuccess = guess => ({
+	type: POST_GUESS_SUCCESS, 
+	guess
+})
+
+export const POST_GUESS_ERROR = 'POST_GUESS_ERROR';
+export const postGuessError = error => ({
+	type: POST_GUESS_ERROR, 
+	error
+})
+
+export const postGuess = (guessCount) => {
+	return dispatch => {
+		console.log("posting");
+		const url = 'http://localhost:8081/fewest-guesses';
+		return fetch(url, {  
+			    method: 'post',  
+			    headers: {  
+			      "Content-type": "application/json; charset=utf-8"  
+			    },  
+			    body: JSON.stringify({"guess": guessCount})
+  			})
+			.then(response => {
+				if (!response.ok) {
+					const error = new Error(response.statusText)
+					error.response = response
+					throw error; 
+				}
+				return response; 
+			})
+			.then(response => response.json())
+			.then(data => dispatch(postGuessSuccess(data.guess)))
+			.catch(error => dispatch(postGuessError(error)));
+	}
+}

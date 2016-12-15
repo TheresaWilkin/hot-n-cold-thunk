@@ -10,8 +10,7 @@ export const numberReducer = (state=initialState, action) => {
 			currentGuess: null,
 			guesses: [],
 			proximity: 'Make a Guess!',
-			won: false, 
-			fewestGuesses: " "
+			won: false
 		};
 	}
 	else if (action.type === actions.GUESS_NUMBER) {
@@ -43,11 +42,18 @@ export const numberReducer = (state=initialState, action) => {
 
 	else if (action.type === actions.FETCH_GUESS_ERROR) {
 		console.log('FETCH_GUESS_ERROR', action.error)
+		return state; 
+	}
+	else if (action.type === actions.POST_GUESS_SUCCESS) {
 		return Object.assign({}, state, 
-			{fewestGuesses: " "}
+			{fewestGuesses: action.guess}
 		);
 	}
-	
+
+	else if (action.type === actions.POST_GUESS_ERROR) {
+		console.log('POST_GUESS_ERROR', action.error)
+		return state;
+	}
     return state;
 };
 

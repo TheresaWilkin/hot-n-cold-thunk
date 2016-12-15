@@ -23,13 +23,19 @@ export class Game extends React.Component {
 		)
 	}
 
+	componentDidUpdate(){
+		this.props.dispatch(
+			actions.fetchGuess()
+		)
+	}
+
 	render() {
 		return (
 			<div className='game'>
 				<button onClick={this.startNewGame}>Start New Game</button>
 				<h1>HOT or COLD?</h1>
 				<GameBox />
-				<p>{this.props.fewestGuesses}</p>
+				<p>Fewest Guesses: {this.props.fewestGuesses}</p>
 			</div>
 		);
 	}
