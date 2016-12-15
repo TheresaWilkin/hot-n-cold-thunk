@@ -9,6 +9,7 @@ import GuessContainerBox from '../js/components/guess-container-box';
 import {GuessForm} from '../js/components/form';
 import {GuessCount} from '../js/components/guess-count';
 import {GuessesBox} from '../js/components/guesses-box';
+import GuessedNumber from '../js/components/guessed-number';
 
 import * as reducers from '../js/reducers/index';
 import * as actions from '../js/actions/index';
@@ -191,9 +192,25 @@ describe('GuessesBox', function() {
     renderer.render(<GuessesBox/>);
     const result = renderer.getRenderOutput();
 
-    // console.log(result.props.children.props[0]);
-
     result.type.should.equal('div');
     result.props.children.type.should.equal('ul');
+
+    renderer.render(<GuessesBox guesses={[1, 2]} />);
+    const result2 = renderer.getRenderOutput();
+    result2.type.should.equal('div');
+    result2.props.children.type.should.equal('ul');
+    result2.props.children.props.children.length.should.equal(2);
+  });
+});
+
+describe('GuessedNumber', function() {
+  it('Render a guessed number', function() {
+    const renderer = TestUtils.createRenderer();
+    renderer.render(<GuessedNumber number={1} />);
+    const result = renderer.getRenderOutput();
+
+    result.type.should.equal('li');
+    result.props.children.should.equal(1);
+
   });
 });
