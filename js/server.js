@@ -16,13 +16,19 @@ var jsonParser = bodyParser.json();
 // but keep here for reference
 //app.use(express.static('build'));
 
-let fewestGuesses = Infinity;
+let fewestGuesses = 12;
 app.get('/fewest-guesses', jsonParser, function(req, res) {
-    res.status(200).json(fewestGuesses);
+    res.status(200).json({"guess": fewestGuesses});
 });
 
 app.post('/fewest-guesses', jsonParser, function(req, res) {
-	
+	if (req.body.guess < fewestGuesses) {
+		fewestGuesses = req.body.guess
+		return res.status(201).json(fewestGuesses)
+	}
+
+	return res.status(200).json({})
+
     // update fewestGuesses here
     // remember to compare it to the current guesess to determine which is lowest
 });
