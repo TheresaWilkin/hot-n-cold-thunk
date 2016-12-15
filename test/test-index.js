@@ -7,6 +7,8 @@ import GameBox from '../js/components/game-box';
 import {Feedback} from '../js/components/feedback';
 import GuessContainerBox from '../js/components/guess-container-box';
 import {GuessForm} from '../js/components/form';
+import {GuessCount} from '../js/components/guess-count';
+import {GuessesBox} from '../js/components/guesses-box';
 
 import * as reducers from '../js/reducers/index';
 import * as actions from '../js/actions/index';
@@ -111,8 +113,8 @@ describe('Game Box', function() {
     result.type.should.equal('div');
     result.props.className.should.equal('gamebox');
     result.props.children.length.should.equal(3);
-  })
-})
+  });
+});
 
 describe('Feedback', function() {
   it('Render the feedback', function(){
@@ -165,13 +167,33 @@ describe('GuessForm', function() {
     children[1].type.should.equal('button');
     children[1].props.id.should.equal('guessbutton');
     children[1].props.type.should.equal('button');
-    children[1].props.should.have.property('onClick');    
+    children[1].props.should.have.property('onClick');
     children[1].props.children.should.equal('Guess!');
   });
 });
 
-//
-// 
-  //     #GuessCount (component) (render once w/ guesses="[]" and once w/ guesses=[1,2])
-  //   #GuessesBox (component) (render once w/ guesses="[]" and once w/ guesses=[1,2])
-  //     #GuessedNumber (component) (will need a prop)
+
+describe('GuessCount', function() {
+  it('Render the GuessForm', function(){
+    const renderer = TestUtils.createRenderer();
+    renderer.render(<GuessCount guesses={[1, 2]} />);
+    const result = renderer.getRenderOutput();
+
+    result.type.should.equal('h1');
+    result.props.children[0].should.equal('Guess #');
+    result.props.children[1].should.equal(2);
+  });
+});
+
+describe('GuessesBox', function() {
+  it('Render the Guesses Box', function() {
+    const renderer = TestUtils.createRenderer();
+    renderer.render(<GuessesBox/>);
+    const result = renderer.getRenderOutput();
+
+    // console.log(result.props.children.props[0]);
+
+    result.type.should.equal('div');
+    result.props.children.type.should.equal('ul');
+  });
+});
