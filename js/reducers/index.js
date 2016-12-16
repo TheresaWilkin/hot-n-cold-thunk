@@ -1,7 +1,9 @@
 /*jshint esversion: 6 */
 import * as actions from '../actions/index';
 
-const initialState = {};
+const initialState = {
+	fewestGuesses: 100
+};
 
 export const numberReducer = (state=initialState, action) => {
 	if(action.type === actions.NEW_GAME) {
@@ -10,7 +12,7 @@ export const numberReducer = (state=initialState, action) => {
 			currentGuess: null,
 			guesses: [],
 			proximity: 'Make a Guess!',
-			won: false
+			won: false, 
 		};
 	}
 	else if (action.type === actions.GUESS_NUMBER) {

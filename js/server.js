@@ -1,8 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var morgan = require('morgan');
 
 const app = express();
+
+app.use(morgan('dev'));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -46,42 +49,64 @@ var GuessSchema = new mongoose.Schema({
 var Guess = mongoose.model('Guess', GuessSchema);
 
 app.get('/fewest-guesses', jsonParser, function(req, res) {
+	if (req.body === {}) {
+		console.log('hi')
+	}
     Guess.find(function(err, fewestGuesses) {
-        if (err) {
+    	console.log('fewestGuesses in GET', fewestGuesses)
+
+    	if (fewestGuesses.length === 0) {
+    		return res.status(200).json({"guess": 50})
+    	}
+        else if (err) {
             return res.status(500).json({
                 message: 'Internal Server Error'
             });
         }
-        res.status(200).json(fewestGuesses);
+        return res.status(200).json({"guess": fewestGuesses[0].guess});
     });
 });
 
 app.post('/fewest-guesses', jsonParser, function(req, res) {
 	if (!req.body.guess) {
-		return res.sendStatus(400);
+		return res.sendStatus(400).end();
 	};
 	Guess.find(function(err, fewestGuesses) {
+		// fewestGuesses = [{guess: 5}, {guess: 7}]
         if (err) {
             return res.status(500).json({
                 message: 'Internal Server Error'
             });
         }
-        if (!fewestGuesses) {
-        	Guess.create({guess: req.body.guess});
+       console.log('fewestGuessess', fewestGuesses[0].guess)
+          console.log('req.body.guess', req.body.guess)
+        // If there aren't any guesses in the DB so far
+        if (fewestGuesses.length === 0) {
+        	console.log('got into create')
+        	Guess.create({guess: req.body.guess}, function (err, guessDoc) {
+        		return res.status(201).json({"guess": guessDoc.guess})
+        	});
         }
-		if (req.body.guess < fewestGuesses) {
-			Guess.findOneAndUpdate(fewestGuesses, 
+        // Their guess is the new best guess
+
+		else if (req.body.guess < fewestGuesses[0].guess) { 
+			console.log('got into else if')
+			Guess.findOneAndUpdate({guess: fewestGuesses[0].guess}, 
 				{$set: {guess: req.body.guess}}, 
-				function(err, item) {
-					console.log(item);
+				function(err, guessDoc) {
 					if (err) {
 						return res.status(500).json({
 							message: 'Internal Server Error'
 						});
 					}
-				return res.status(200).json(item);
+					console.log('what youre sending back', guessDoc.guess)
+				return res.status(200).json(guessDoc.guess);
 			});
-		};
+		}
+		// Their guess is worse than the previous best guess
+		else {
+			console.log('got to else')
+		}
     });
 
 });

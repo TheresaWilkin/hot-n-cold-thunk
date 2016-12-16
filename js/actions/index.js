@@ -87,7 +87,7 @@ export const postGuess = (guessCount) => {
 				return response; 
 			})
 			.then(response => response.json())
-			.then(data => dispatch(postGuessSuccess(data.guess)))
+			.then(dispatch => (postGuessSuccess(data)))
 			.catch(error => dispatch(postGuessError(error)));
 	}
 }

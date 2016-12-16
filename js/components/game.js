@@ -30,6 +30,7 @@ export class Game extends React.Component {
 	}
 
 	render() {
+		console.log(this.props.fewestGuesses)
 		return (
 			<div className='game'>
 				<button onClick={this.startNewGame}>Start New Game</button>
