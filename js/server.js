@@ -49,21 +49,20 @@ var GuessSchema = new mongoose.Schema({
 var Guess = mongoose.model('Guess', GuessSchema);
 
 app.get('/fewest-guesses', jsonParser, function(req, res) {
-	if (req.body === {}) {
-		console.log('hi')
-	}
-    Guess.find(function(err, fewestGuesses) {
-    	console.log('fewestGuesses in GET', fewestGuesses)
 
-    	if (fewestGuesses.length === 0) {
-    		return res.status(200).json({"guess": 50})
-    	}
-        else if (err) {
-            return res.status(500).json({
-                message: 'Internal Server Error'
-            });
-        }
-        return res.status(200).json({"guess": fewestGuesses[0].guess});
+    Guess.find(function(err, fewestGuesses) {
+
+    	if (err) {
+         return res.status(500).json({
+             message: 'Internal Server Error'
+         });
+      }
+
+    	else if (fewestGuesses.length === 0) {
+         return res.status(201).json({guess: Infinity})
+      }
+     
+      return res.status(200).json({"guess": fewestGuesses[0].guess});
     });
 });
 
@@ -78,8 +77,6 @@ app.post('/fewest-guesses', jsonParser, function(req, res) {
                 message: 'Internal Server Error'
             });
         }
-       console.log('fewestGuessess', fewestGuesses[0].guess)
-          console.log('req.body.guess', req.body.guess)
         // If there aren't any guesses in the DB so far
         if (fewestGuesses.length === 0) {
         	console.log('got into create')
